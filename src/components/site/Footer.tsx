@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, MessageCircle, Mail, MapPin, Clock, Star } from "lucide-react";
 import { COMPANY, telLink, mailLink, waLink, PRODUCTS } from "@/lib/site-data";
+import { TrustBadge } from "@/components/site/TrustBadge";
 import logo from "@/assets/logo.png";
 
 export function Footer() {
