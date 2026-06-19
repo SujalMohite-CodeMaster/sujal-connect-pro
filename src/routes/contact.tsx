@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Phone, MessageCircle, Mail, MapPin, Clock, Star } from "lucide-react";
+import { Phone, MessageCircle, Mail, MapPin, Clock, Star, Navigation } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactForm } from "@/components/site/ContactForm";
-import { COMPANY, telLink, mailLink, waLink } from "@/lib/site-data";
+import { FaqSection } from "@/components/site/FaqSection";
+import { TrustBadge } from "@/components/site/TrustBadge";
+import { COMPANY, telLink, mailLink, waLink, directionsLink } from "@/lib/site-data";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
