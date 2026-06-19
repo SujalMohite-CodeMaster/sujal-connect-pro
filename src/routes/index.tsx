@@ -270,6 +270,18 @@ function Home() {
         </div>
       </section>
 
+      {/* ---------- Delivery & shipping ---------- */}
+      <DeliveryInfo />
+
+      {/* ---------- Testimonials ---------- */}
+      <Testimonials />
+
+      {/* ---------- FAQ ---------- */}
+      <FaqSection />
+
+      {/* ---------- Catalog download ---------- */}
+      <CatalogDownload className="pb-16 lg:pb-20" />
+
       <CtaBanner />
     </>
   );
