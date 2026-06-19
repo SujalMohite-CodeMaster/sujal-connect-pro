@@ -107,7 +107,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 border-t border-graphite-foreground/10 pt-6">
-          <TrustBadge className="border-graphite-foreground/15 bg-graphite-foreground/5 text-graphite-foreground" />
+          <TrustBadge tone="dark" />
         </div>
 
         <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-silver/70 sm:flex-row">
