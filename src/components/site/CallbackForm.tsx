@@ -1,26 +1,71 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { PhoneCall, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import {
+  submitEnquiry,
+  openEnquiryWhatsApp,
+  SUBMIT_COOLDOWN_SECONDS,
+  type EnquiryInput,
+} from "@/lib/enquiry";
+
+const honeypotStyle: CSSProperties = {
+  position: "absolute",
+  left: "-9999px",
+  top: "auto",
+  width: 1,
+  height: 1,
+  overflow: "hidden",
+  opacity: 0,
+};
 
 export function CallbackForm({ className }: { className?: string }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [form, setForm] = useState({ name: "", phone: "" });
+  const [cooldown, setCooldown] = useState(0);
+  const honeypot = useRef("");
 
-  function handleSubmit(e: FormEvent) {
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (cooldown > 0) return;
     if (!form.name || !form.phone) {
       toast.error("Please add your name and phone number.");
       return;
     }
-    setStatus("loading");
-    setTimeout(() => {
+
+    if (honeypot.current.trim() !== "") {
       setStatus("success");
-      toast.success("Thanks! We'll call you back shortly.");
-    }, 1200);
+      return;
+    }
+
+    setStatus("loading");
+    const input: EnquiryInput = {
+      enquiry_type: "callback",
+      name: form.name,
+      phone: form.phone,
+      website: honeypot.current,
+    };
+    const { ok } = await submitEnquiry(input);
+
+    if (!ok) {
+      setStatus("idle");
+      toast.error("Something went wrong. Please WhatsApp us directly.");
+      return;
+    }
+
+    setStatus("success");
+    setCooldown(SUBMIT_COOLDOWN_SECONDS);
+    toast.success("Thanks! We'll call you back shortly.");
+    openEnquiryWhatsApp(input);
   }
 
   return (
@@ -40,6 +85,21 @@ export function CallbackForm({ className }: { className?: string }) {
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
+          {/* Honeypot — hidden from real users, catches bots. */}
+          <div style={honeypotStyle} aria-hidden="true">
+            <label>
+              Company
+              <input
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                onChange={(e) => {
+                  honeypot.current = e.target.value;
+                }}
+              />
+            </label>
+          </div>
+
           <div className="flex items-center gap-2.5">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-gradient text-accent-foreground">
               <PhoneCall className="h-4.5 w-4.5" />
@@ -75,12 +135,14 @@ export function CallbackForm({ className }: { className?: string }) {
             variant="amber"
             size="lg"
             className="mt-4 w-full"
-            disabled={status === "loading"}
+            disabled={status === "loading" || cooldown > 0}
           >
             {status === "loading" ? (
               <>
                 <Loader2 className="animate-spin" /> Sending...
               </>
+            ) : cooldown > 0 ? (
+              <>Please wait {cooldown}s</>
             ) : (
               <>
                 <PhoneCall /> Request a Callback

@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import {
   CheckCircle2,
   Loader2,
@@ -22,6 +22,13 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { PRODUCT_OPTIONS, waLink, COMPANY } from "@/lib/site-data";
+import {
+  submitEnquiry,
+  openEnquiryWhatsApp,
+  buildEnquiryWhatsApp,
+  SUBMIT_COOLDOWN_SECONDS,
+  type EnquiryInput,
+} from "@/lib/enquiry";
 
 type EnquiryType = "retail" | "bulk";
 
@@ -30,10 +37,22 @@ const TYPES: { id: EnquiryType; icon: typeof Store; title: string; sub: string }
   { id: "bulk", icon: Boxes, title: "Bulk / Wholesale Enquiry", sub: "High volume / reseller" },
 ];
 
+const honeypotStyle: CSSProperties = {
+  position: "absolute",
+  left: "-9999px",
+  top: "auto",
+  width: 1,
+  height: 1,
+  overflow: "hidden",
+  opacity: 0,
+};
+
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [product, setProduct] = useState<string>("");
   const [enquiryType, setEnquiryType] = useState<EnquiryType>("retail");
+  const [cooldown, setCooldown] = useState(0);
+  const honeypot = useRef("");
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -45,41 +64,76 @@ export function ContactForm() {
   const update = (key: keyof typeof form) => (e: { target: { value: string } }) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  function handleSubmit(e: FormEvent) {
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  function buildInput(): EnquiryInput {
+    return {
+      enquiry_type: enquiryType === "bulk" ? "bulk" : "contact",
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      product_interested: product,
+      quantity: enquiryType === "bulk" ? form.quantity : "",
+      message: form.message,
+      website: honeypot.current,
+    };
+  }
+
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (cooldown > 0) return;
     if (!form.name || !form.phone) {
       toast.error("Please add your name and phone number.");
       return;
     }
-    setStatus("loading");
-    setTimeout(() => {
+
+    // Honeypot: bail silently as if it succeeded.
+    if (honeypot.current.trim() !== "") {
       setStatus("success");
-      toast.success("Enquiry received — we'll get back to you shortly!");
-    }, 1400);
+      return;
+    }
+
+    setStatus("loading");
+    const input = buildInput();
+    const { ok } = await submitEnquiry(input);
+
+    if (!ok) {
+      setStatus("idle");
+      toast.error("Something went wrong saving your enquiry. Please WhatsApp us directly.");
+      return;
+    }
+
+    setStatus("success");
+    setCooldown(SUBMIT_COOLDOWN_SECONDS);
+    toast.success("Enquiry received — opening WhatsApp to confirm.");
+    openEnquiryWhatsApp(input);
   }
 
   function reset() {
     setForm({ name: "", phone: "", email: "", quantity: "", message: "" });
     setProduct("");
     setEnquiryType("retail");
+    honeypot.current = "";
     setStatus("idle");
   }
 
   if (status === "success") {
-    const waMessage = `Hi ${COMPANY.shortName}, I'm ${form.name}. ${
-      enquiryType === "bulk" ? "[Bulk/Wholesale] " : ""
-    }I'd like a quote for ${product || "industrial bearings"}${
-      form.quantity ? ` (Qty: ${form.quantity})` : ""
-    }.`;
+    const waMessage = buildEnquiryWhatsApp(buildInput());
     return (
       <div className="flex flex-col items-center rounded-2xl border border-border bg-card p-8 text-center shadow-card">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-whatsapp/15 animate-scale-in">
           <CheckCircle2 className="h-11 w-11 text-whatsapp" />
         </div>
-        <h3 className="mt-5 text-2xl font-bold text-foreground">Thank you, {form.name.split(" ")[0]}!</h3>
+        <h3 className="mt-5 text-2xl font-bold text-foreground">
+          Thanks{form.name ? `, ${form.name.split(" ")[0]}` : ""}!
+        </h3>
         <p className="mt-2 max-w-sm text-muted-foreground">
-          Your enquiry has been received. Our team will reach out with a quote soon. For the fastest
-          response, message us directly on WhatsApp.
+          We've received your query and our team will reach out with a quote soon. WhatsApp should
+          have opened in a new tab — just tap send to reach us instantly.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Button asChild variant="whatsapp" size="lg">
@@ -91,6 +145,11 @@ export function ContactForm() {
             Send another enquiry
           </Button>
         </div>
+        {cooldown > 0 && (
+          <p className="mt-4 text-xs text-muted-foreground">
+            You can send another enquiry in {cooldown}s.
+          </p>
+        )}
       </div>
     );
   }
@@ -100,6 +159,21 @@ export function ContactForm() {
       onSubmit={handleSubmit}
       className="rounded-2xl border border-border bg-card p-6 shadow-card sm:p-8"
     >
+      {/* Honeypot field — hidden from real users, catches bots. */}
+      <div style={honeypotStyle} aria-hidden="true">
+        <label>
+          Company website
+          <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            onChange={(e) => {
+              honeypot.current = e.target.value;
+            }}
+          />
+        </label>
+      </div>
+
       {/* Enquiry type selector */}
       <div className="mb-6 grid gap-3 sm:grid-cols-2">
         {TYPES.map((t) => {
@@ -215,12 +289,14 @@ export function ContactForm() {
         variant="amber"
         size="lg"
         className="mt-6 w-full"
-        disabled={status === "loading"}
+        disabled={status === "loading" || cooldown > 0}
       >
         {status === "loading" ? (
           <>
             <Loader2 className="animate-spin" /> Sending...
           </>
+        ) : cooldown > 0 ? (
+          <>Please wait {cooldown}s</>
         ) : (
           <>
             <Send /> Request a Quote

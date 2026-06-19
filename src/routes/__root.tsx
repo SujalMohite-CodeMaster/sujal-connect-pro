@@ -81,24 +81,49 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sujal Services & Solutions | Industrial Bearings Supplier in Mumbai" },
+      {
+        title:
+          "Sujal Services & Solutions | Industrial Bearing Supplier in Mumbai",
+      },
       {
         name: "description",
         content:
-          "Trusted industrial bearing supplier in Mumbai since 2013. Ball, roller, thrust & needle bearings, oil seals, lubricants & hardware. Get a fast quote on WhatsApp.",
+          "Trusted supplier of bearings, oil seals, lubricants & industrial hardware in Mumbai since 2013. Get instant quotes on WhatsApp.",
       },
       { name: "author", content: "Sujal Services & Solutions" },
-      { property: "og:title", content: "Sujal Services & Solutions | Industrial Bearings Mumbai" },
+      {
+        property: "og:title",
+        content:
+          "Sujal Services & Solutions | Industrial Bearing Supplier in Mumbai",
+      },
       {
         property: "og:description",
         content:
-          "Ball, roller, thrust & needle bearings, oil seals & lubricants. Trusted by 500+ clients. Call or WhatsApp for a fast quote.",
+          "Trusted supplier of bearings, oil seals, lubricants & industrial hardware in Mumbai since 2013. Get instant quotes on WhatsApp.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Sujal Services & Solutions" },
+      { property: "og:image", content: "/og-image.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content:
+          "Sujal Services & Solutions | Industrial Bearing Supplier in Mumbai",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Trusted supplier of bearings, oil seals, lubricants & industrial hardware in Mumbai since 2013. Get instant quotes on WhatsApp.",
+      },
+      { name: "twitter:image", content: "/og-image.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "shortcut icon", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

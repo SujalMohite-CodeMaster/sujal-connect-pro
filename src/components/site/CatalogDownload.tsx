@@ -1,8 +1,8 @@
-import { FileText, Download } from "lucide-react";
+import { FileText, Download, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/Reveal";
 import { cn } from "@/lib/utils";
-import { waLink } from "@/lib/site-data";
+import { waLink, catalogDownloadLink } from "@/lib/site-data";
 
 export function CatalogDownload({ className }: { className?: string }) {
   return (
@@ -18,15 +18,22 @@ export function CatalogDownload({ className }: { className?: string }) {
               Get our full product list (PDF) — no prices included, contact us for live rates.
             </p>
           </div>
-          <Button asChild variant="hero" size="lg" className="w-full shrink-0 sm:w-auto">
-            <a
-              href={waLink("Hi, please send me your product catalog")}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Download /> Get the catalog
-            </a>
-          </Button>
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <Button asChild variant="hero" size="lg" className="w-full shrink-0 sm:w-auto">
+              <a href={catalogDownloadLink} target="_blank" rel="noopener noreferrer">
+                <Download /> Download PDF
+              </a>
+            </Button>
+            <Button asChild variant="whatsapp" size="lg" className="w-full shrink-0 sm:w-auto">
+              <a
+                href={waLink("Hi, please send me your product catalog")}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle /> Get it on WhatsApp
+              </a>
+            </Button>
+          </div>
         </div>
       </Reveal>
     </section>
