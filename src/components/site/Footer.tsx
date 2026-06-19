@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, MessageCircle, Mail, MapPin, Clock, Star } from "lucide-react";
 import { COMPANY, telLink, mailLink, waLink, PRODUCTS } from "@/lib/site-data";
+import { TrustBadge } from "@/components/site/TrustBadge";
 import logo from "@/assets/logo.png";
 
 export function Footer() {
@@ -105,7 +106,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-graphite-foreground/10 pt-6 text-xs text-silver/70 sm:flex-row">
+        <div className="mt-10 border-t border-graphite-foreground/10 pt-6">
+          <TrustBadge tone="dark" />
+        </div>
+
+        <div className="mt-6 flex flex-col items-center justify-between gap-3 text-xs text-silver/70 sm:flex-row">
           <p>
             © {new Date().getFullYear()} {COMPANY.name}. All rights reserved.
           </p>

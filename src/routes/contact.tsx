@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Phone, MessageCircle, Mail, MapPin, Clock, Star } from "lucide-react";
+import { Phone, MessageCircle, Mail, MapPin, Clock, Star, Navigation } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactForm } from "@/components/site/ContactForm";
-import { COMPANY, telLink, mailLink, waLink } from "@/lib/site-data";
+import { FaqSection } from "@/components/site/FaqSection";
+import { TrustBadge } from "@/components/site/TrustBadge";
+import { COMPANY, telLink, mailLink, waLink, directionsLink } from "@/lib/site-data";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -161,10 +164,24 @@ function Contact() {
                   allowFullScreen
                 />
               </div>
+              <Button asChild variant="hero" size="lg" className="mt-4 w-full">
+                <a href={directionsLink} target="_blank" rel="noopener noreferrer">
+                  <Navigation /> Get Directions
+                </a>
+              </Button>
+            </Reveal>
+
+            <Reveal variant="right" delay={180}>
+              <div className="mt-5">
+                <TrustBadge className="w-full justify-center" />
+              </div>
             </Reveal>
           </div>
         </div>
       </section>
+
+      {/* FAQ */}
+      <FaqSection />
     </>
   );
 }

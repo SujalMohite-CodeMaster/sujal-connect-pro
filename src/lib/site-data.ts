@@ -27,6 +27,8 @@ export const COMPANY = {
     full: "40/42, Nagdevi St, near Ram Mandir, Nakhuda Mohalla, Chippi Chawl, Masjid Bandar, Mumbai, Maharashtra 400003",
   },
   hours: "Mon–Sat: 11:00 AM onwards · Sunday: Closed",
+  // 👇 Replace the placeholder below with your real GSTIN when ready.
+  gstin: "[ADD YOUR GST NUMBER HERE]",
 } as const;
 
 export const yearsInBusiness = new Date().getFullYear() - COMPANY.since;
@@ -37,6 +39,55 @@ export function waLink(message?: string) {
 }
 export const telLink = `tel:${COMPANY.phoneRaw}`;
 export const mailLink = `mailto:${COMPANY.email}`;
+export const directionsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  COMPANY.address.full,
+)}`;
+
+/** Brands we deal in — text placeholder logos for the marquee. */
+export const BRANDS = ["SKF", "FAG", "NTN", "NBC", "NRB", "Timken", "Koyo", "INA"] as const;
+
+export type Testimonial = { quote: string; author: string };
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote:
+      "Sujal Services and Solutions is your trusted partner for high-quality bearings and related industrial materials. Timely delivery and expert support for all our machinery needs.",
+    author: "Verified Client",
+  },
+  {
+    quote: "Great quality bearings and quick response on WhatsApp. Highly reliable supplier.",
+    author: "Sujal M., Google Review",
+  },
+  {
+    quote: "Five-star service every time. They always have what we need in stock.",
+    author: "Justdial Review",
+  },
+];
+
+export type Faq = { q: string; a: string };
+
+export const FAQS: Faq[] = [
+  {
+    q: "What brands of bearings do you stock?",
+    a: "We deal in all major brands including SKF, FAG, NTN, NBC, NRB, Timken, Koyo, and more, along with oil seals and lubricants.",
+  },
+  {
+    q: "Do you offer bulk/wholesale discounts?",
+    a: "Yes, we offer special pricing for bulk and wholesale orders. Contact us with your quantity requirement for a custom quote.",
+  },
+  {
+    q: "What is your delivery area?",
+    a: "We deliver locally within Mumbai and ship pan-India through trusted courier and transport partners.",
+  },
+  {
+    q: "Can I get a custom or hard-to-find bearing sourced?",
+    a: "Yes, we specialize in sourcing custom and specialty bearings on request — just share the part number or specifications with us.",
+  },
+  {
+    q: "How do I get a price quote?",
+    a: "Prices change daily based on market rates. Call, WhatsApp, or fill our enquiry form with your requirement for an instant quote.",
+  },
+];
 
 export type ProductCategory = {
   slug: string;

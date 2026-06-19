@@ -18,6 +18,13 @@ import { Reveal } from "@/components/site/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { ProductCard } from "@/components/site/ProductCard";
 import { CtaBanner } from "@/components/site/CtaBanner";
+import { BrandsCarousel } from "@/components/site/BrandsCarousel";
+import { BearingFinder } from "@/components/site/BearingFinder";
+import { DeliveryInfo } from "@/components/site/DeliveryInfo";
+import { Testimonials } from "@/components/site/Testimonials";
+import { FaqSection } from "@/components/site/FaqSection";
+import { CatalogDownload } from "@/components/site/CatalogDownload";
+import { CallbackForm } from "@/components/site/CallbackForm";
 import { COMPANY, PRODUCTS, yearsInBusiness, waLink } from "@/lib/site-data";
 import heroImg from "@/assets/hero-bearings.jpg";
 
@@ -130,9 +137,12 @@ function Home() {
           </div>
 
           <Reveal variant="right" className="hidden lg:block">
-            <div className="relative mx-auto max-w-md animate-float-y">
-              <div className="absolute inset-0 -z-10 rounded-full bg-accent/20 blur-3xl" />
-              <BearingMotif className="w-full" />
+            <div className="relative mx-auto max-w-md">
+              <div className="animate-float-y">
+                <div className="absolute inset-0 -z-10 rounded-full bg-accent/20 blur-3xl" />
+                <BearingMotif className="mx-auto w-2/3" />
+              </div>
+              <CallbackForm className="mt-6" />
             </div>
           </Reveal>
         </div>
@@ -158,6 +168,16 @@ function Home() {
         </div>
       </section>
 
+      {/* ---------- Callback mini-form (mobile/tablet) ---------- */}
+      <section className="px-4 pt-12 sm:px-6 lg:hidden">
+        <Reveal className="mx-auto max-w-md">
+          <CallbackForm />
+        </Reveal>
+      </section>
+
+      {/* ---------- Brands ---------- */}
+      <BrandsCarousel />
+
       {/* ---------- Products ---------- */}
       <section className="px-4 py-20 sm:px-6 lg:py-24">
         <div className="mx-auto max-w-7xl">
@@ -182,6 +202,9 @@ function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* ---------- Bearing number finder ---------- */}
+      <BearingFinder />
 
       {/* ---------- Why choose us ---------- */}
       <section className="bg-secondary/50 px-4 py-20 sm:px-6 lg:py-24">
@@ -246,6 +269,18 @@ function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* ---------- Delivery & shipping ---------- */}
+      <DeliveryInfo />
+
+      {/* ---------- Testimonials ---------- */}
+      <Testimonials />
+
+      {/* ---------- FAQ ---------- */}
+      <FaqSection />
+
+      {/* ---------- Catalog download ---------- */}
+      <CatalogDownload className="pb-16 lg:pb-20" />
 
       <CtaBanner />
     </>
