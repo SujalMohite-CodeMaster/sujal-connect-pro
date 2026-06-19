@@ -48,8 +48,8 @@ export function BearingMotif({ className }: { className?: string }) {
           </defs>
           {balls.map((_, i) => {
             const angle = (i / balls.length) * Math.PI * 2;
-            const cx = 100 + Math.cos(angle) * 86;
-            const cy = 100 + Math.sin(angle) * 86;
+            const cx = (100 + Math.cos(angle) * 86).toFixed(3);
+            const cy = (100 + Math.sin(angle) * 86).toFixed(3);
             return (
               <circle
                 key={i}
