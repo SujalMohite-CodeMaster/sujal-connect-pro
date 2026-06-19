@@ -27,8 +27,7 @@ export const COMPANY = {
     full: "40/42, Nagdevi St, near Ram Mandir, Nakhuda Mohalla, Chippi Chawl, Masjid Bandar, Mumbai, Maharashtra 400003",
   },
   hours: "Mon–Sat: 11:00 AM onwards · Sunday: Closed",
-  // 👇 Replace the placeholder below with your real GSTIN when ready.
-  gstin: "[ADD YOUR GST NUMBER HERE]",
+  gstin: "27AWBPM7561R1ZQ",
 } as const;
 
 export const yearsInBusiness = new Date().getFullYear() - COMPANY.since;
@@ -38,10 +37,16 @@ export function waLink(message?: string) {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 export const telLink = `tel:${COMPANY.phoneRaw}`;
-export const mailLink = `mailto:${COMPANY.email}`;
+// Pre-filled mailto so incoming mail is easy to filter in Gmail by a fixed subject.
+export const mailLink = `mailto:${COMPANY.email}?subject=${encodeURIComponent(
+  "Website Enquiry - Sujal Services",
+)}&body=${encodeURIComponent("Hi, I have a query regarding:\n\n")}`;
 export const directionsLink = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
   COMPANY.address.full,
 )}`;
+
+/** Stable link that streams the latest catalog PDF from secure storage. */
+export const catalogDownloadLink = "/api/public/catalog";
 
 /** Brands we deal in — text placeholder logos for the marquee. */
 export const BRANDS = ["SKF", "FAG", "NTN", "NBC", "NRB", "Timken", "Koyo", "INA"] as const;
