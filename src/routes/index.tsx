@@ -168,6 +168,16 @@ function Home() {
         </div>
       </section>
 
+      {/* ---------- Callback mini-form (mobile/tablet) ---------- */}
+      <section className="px-4 pt-12 sm:px-6 lg:hidden">
+        <Reveal className="mx-auto max-w-md">
+          <CallbackForm />
+        </Reveal>
+      </section>
+
+      {/* ---------- Brands ---------- */}
+      <BrandsCarousel />
+
       {/* ---------- Products ---------- */}
       <section className="px-4 py-20 sm:px-6 lg:py-24">
         <div className="mx-auto max-w-7xl">
