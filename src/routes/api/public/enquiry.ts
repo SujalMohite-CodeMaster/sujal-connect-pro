@@ -69,6 +69,8 @@ export const Route = createFileRoute("/api/public/enquiry")({
         const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null;
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+        // Always save to the shared enquiries table
         const { error } = await supabaseAdmin.from("enquiries").insert({
           enquiry_type: d.enquiry_type,
           name: d.name,
@@ -82,6 +84,23 @@ export const Route = createFileRoute("/api/public/enquiry")({
         if (error) {
           console.error("Failed to save enquiry:", error.message);
           return Response.json({ ok: false }, { status: 500 });
+        }
+
+        // Also save to the dedicated bulk_enquiries table for richer analysis
+        if (d.enquiry_type === "bulk") {
+          const { error: bulkError } = await supabaseAdmin.from("bulk_enquiries").insert({
+            name: d.name,
+            phone: d.phone,
+            email: validEmail,
+            product_interested: d.product_interested.trim() || null,
+            quantity: d.quantity.trim() || null,
+            message: d.message.trim() || null,
+            status: "new",
+          });
+          if (bulkError) {
+            // Non-fatal: log it but don't fail the user request
+            console.error("Failed to save to bulk_enquiries:", bulkError.message);
+          }
         }
 
         if (validEmail) {

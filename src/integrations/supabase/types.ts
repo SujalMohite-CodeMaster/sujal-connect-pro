@@ -50,6 +50,45 @@ export type Database = {
         }
         Relationships: []
       }
+      bulk_enquiries: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          message: string | null
+          name: string
+          notes: string | null
+          phone: string
+          product_interested: string | null
+          quantity: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          name: string
+          notes?: string | null
+          phone: string
+          product_interested?: string | null
+          quantity?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string
+          product_interested?: string | null
+          quantity?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

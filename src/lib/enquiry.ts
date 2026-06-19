@@ -34,10 +34,17 @@ export function buildEnquiryWhatsApp(input: EnquiryInput): string {
   return lines.join("\n");
 }
 
-/** Opens WhatsApp in a new tab with the pre-filled enquiry message. */
+/** Opens WhatsApp in a new tab with the pre-filled enquiry message. Avoids popup blockers. */
 export function openEnquiryWhatsApp(input: EnquiryInput) {
   if (typeof window === "undefined") return;
-  window.open(waLink(buildEnquiryWhatsApp(input)), "_blank", "noopener,noreferrer");
+  const url = waLink(buildEnquiryWhatsApp(input));
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 /**

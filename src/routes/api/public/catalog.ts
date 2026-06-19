@@ -19,13 +19,16 @@ export const Route = createFileRoute("/api/public/catalog")({
 
         const { data, error } = await supabaseAdmin.storage
           .from("catalog")
-          .createSignedUrl(fileName, 60 * 60);
+          .createSignedUrl(fileName, 60 * 60, { download: true });
 
         if (error || !data?.signedUrl) {
-          return new Response(
-            "Catalog is not available yet. Please request it on WhatsApp.",
-            { status: 404, headers: { "Content-Type": "text/plain" } },
-          );
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: "https://wa.me/919322279696?text=Hi%2C%20please%20send%20me%20your%20product%20catalog.",
+              "Cache-Control": "no-store",
+            },
+          });
         }
 
         return new Response(null, {
