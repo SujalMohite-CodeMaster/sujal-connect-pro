@@ -5,6 +5,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { CountUp } from "@/components/site/CountUp";
 import { BearingMotif } from "@/components/site/BearingMotif";
 import { CtaBanner } from "@/components/site/CtaBanner";
+import { TrustBadge } from "@/components/site/TrustBadge";
 import { COMPANY, yearsInBusiness } from "@/lib/site-data";
 
 export const Route = createFileRoute("/about")({
