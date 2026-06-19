@@ -18,6 +18,13 @@ import { Reveal } from "@/components/site/Reveal";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { ProductCard } from "@/components/site/ProductCard";
 import { CtaBanner } from "@/components/site/CtaBanner";
+import { BrandsCarousel } from "@/components/site/BrandsCarousel";
+import { BearingFinder } from "@/components/site/BearingFinder";
+import { DeliveryInfo } from "@/components/site/DeliveryInfo";
+import { Testimonials } from "@/components/site/Testimonials";
+import { FaqSection } from "@/components/site/FaqSection";
+import { CatalogDownload } from "@/components/site/CatalogDownload";
+import { CallbackForm } from "@/components/site/CallbackForm";
 import { COMPANY, PRODUCTS, yearsInBusiness, waLink } from "@/lib/site-data";
 import heroImg from "@/assets/hero-bearings.jpg";
 
