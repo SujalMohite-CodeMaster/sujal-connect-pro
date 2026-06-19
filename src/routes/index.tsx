@@ -203,6 +203,9 @@ function Home() {
         </div>
       </section>
 
+      {/* ---------- Bearing number finder ---------- */}
+      <BearingFinder />
+
       {/* ---------- Why choose us ---------- */}
       <section className="bg-secondary/50 px-4 py-20 sm:px-6 lg:py-24">
         <div className="mx-auto max-w-7xl">
