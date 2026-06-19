@@ -4,6 +4,9 @@ import { SectionHeading } from "@/components/site/SectionHeading";
 import { Reveal } from "@/components/site/Reveal";
 import { ProductCard } from "@/components/site/ProductCard";
 import { CtaBanner } from "@/components/site/CtaBanner";
+import { BearingFinder } from "@/components/site/BearingFinder";
+import { CatalogDownload } from "@/components/site/CatalogDownload";
+import { BrandsCarousel } from "@/components/site/BrandsCarousel";
 import { PRODUCTS } from "@/lib/site-data";
 
 export const Route = createFileRoute("/products")({
