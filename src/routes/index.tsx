@@ -137,9 +137,12 @@ function Home() {
           </div>
 
           <Reveal variant="right" className="hidden lg:block">
-            <div className="relative mx-auto max-w-md animate-float-y">
-              <div className="absolute inset-0 -z-10 rounded-full bg-accent/20 blur-3xl" />
-              <BearingMotif className="w-full" />
+            <div className="relative mx-auto max-w-md">
+              <div className="animate-float-y">
+                <div className="absolute inset-0 -z-10 rounded-full bg-accent/20 blur-3xl" />
+                <BearingMotif className="mx-auto w-2/3" />
+              </div>
+              <CallbackForm className="mt-6" />
             </div>
           </Reveal>
         </div>
