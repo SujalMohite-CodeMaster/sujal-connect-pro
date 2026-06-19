@@ -324,6 +324,34 @@
   animation: scale-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Infinite marquee for the brand logo carousel */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@utility animate-marquee {
+  animation: marquee-x 28s linear infinite;
+}
+
+/* Fade for the testimonial carousel */
+@keyframes fade-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@utility animate-fade-slide {
+  animation: fade-slide 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
