@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: sujal-connect-pro
+    env: node
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm run start"
+    autoDeploy: true
