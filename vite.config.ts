@@ -12,4 +12,6 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Force-enable Nitro deploy plugin outside of Lovable cloud context (e.g. Vercel)
+  nitro: true,
 });
