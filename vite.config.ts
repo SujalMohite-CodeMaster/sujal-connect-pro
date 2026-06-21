@@ -14,4 +14,16 @@ export default defineConfig({
   },
   // Force-enable Nitro deploy plugin outside of Lovable cloud context (e.g. Vercel)
   nitro: true,
+  vite: {
+    server: {
+      middlewareMode: true,
+    },
+  },
+  preview: {
+    allowedHosts: [
+      "sujal-connect-pro.onrender.com",
+      "localhost",
+      "127.0.0.1",
+    ],
+  },
 });
