@@ -18,7 +18,7 @@ export const COMPANY = {
   phoneDisplay: "+91 93222 79696",
   phoneRaw: "+919322279696",
   whatsapp: "919322279696",
-  email: "cp.sujal@gmail.com",
+  email: "cp.sujal@hotmail.com",
   rating: "5.0",
   address: {
     line1: "40/42, Nagdevi St, near Ram Mandir",

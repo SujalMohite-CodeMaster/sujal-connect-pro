@@ -15,7 +15,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Contact Sujal Services & Solutions in Masjid Bandar, Mumbai. Call +91 93222 79696, WhatsApp or email cp.sujal@gmail.com for a fast quote on industrial bearings.",
+          "Contact Sujal Services & Solutions in Masjid Bandar, Mumbai. Call +91 93222 79696, WhatsApp or email cp.sujal@hotmail.com for a fast quote on industrial bearings.",
       },
       { property: "og:title", content: "Contact — Sujal Services & Solutions" },
       {
