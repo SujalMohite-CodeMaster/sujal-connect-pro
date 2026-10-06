@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "framework": "tanstack-start-lovable",
   "regions": [
     "iad1"
   ]
